@@ -1,0 +1,20 @@
+{
+  "name": "storeapi",
+  "version": "1.0.0",
+  "description": "AgaveLab",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Oscar Gerardo",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.14.0",
+    "fs": "0.0.2",
+    "linq": "^3.0.5",
+    "morgan": "^1.7.0",
+    "sequelize": "^3.23.3",
+    "sqlite3": "^3.1.4"
+  }
+}
