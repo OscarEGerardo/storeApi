@@ -6,31 +6,52 @@ var router = express.Router();
 var ProductSchema = {
     type: 'object',
     properties: {
-        code: {
-            type: 'string',
+        product: {
+            type: 'object',
             required: true,
-            maxLength: 10
+            properties: {
+                code: {
+                    type: 'string',
+                    required: true,
+                    maxLength: 10
+                },
+                name: {
+                    type: 'string',
+                    required: true,
+                    maxLength: 20
+                },
+                price: {
+                    type: 'decimal',
+                    required: true
+                }
+            }
         },
-        name: {
-            type: 'string',
-            required: true,
-            maxLength: 20
-        },
-        price: {
-            type: 'decimal',
-            required: true
+        promotion: {
+            type: 'object',
+            properties: {
+                type: {
+                    type: 'string',
+                    required: true,
+                    maxLength: 10
+                },
+                data: {
+                    type: 'object',
+                    require: true
+                }
+            }
         }
     }
 }
 
-router.post('/', validate({body: ProductSchema}), function (req, res) {
+router.post('/', validate({ body: ProductSchema }), function (req, res) {
     models.Product.create(
-        req.body
+        req.body.product
     ).then(function (productSaved) {
+        if (req.body.promotion == null) return;
         models.Promotion.create(req.body.promotion).then(function (promotionSaved) {
             return productSaved.setPromotion(promotionSaved);
         }).then(function () {
-            res.send('Saved!');
+            res.send(productSaved);
         });
     });
 });

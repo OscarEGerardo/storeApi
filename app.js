@@ -30,11 +30,7 @@ app.use(function(err, req, res, next) {
            jsonSchemaValidation: true,
            validations: err.validations   
         };
-        if (req.xhr || req.get('Content-Type') === 'application/json') {
-            res.json(responseData);
-        } else {
-            res.render('badrequestTemplate', responseData);
-        }
+        res.json(responseData);
     } else {
         next(err);
     }
