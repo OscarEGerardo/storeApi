@@ -34,17 +34,48 @@ router.post('/', validate({ body: PaymentSchema }), function (req, res) {
         return req.body.items.indexOf(item) == pos;
     });
 
-    models.sequelize.Promise.map(uniqueArray, function (code) {
-        models.Product.findOne({
-            where: {
-                code
-            }
-        }).then(function (productFound) {
-            var pro = productFound;
-        });
-    })
 
-    res.send(counts);
+    models.sequelize.transaction(function (t) {
+        return models.sequelize.Promise.map(uniqueArray, function (code) {
+            return models.Product.findOne({
+                where: {
+                    code
+                },
+                include: [{
+                    model: models.Promotion
+                }],
+                transaction: t
+            }).then(function (productFound) {
+                total += getPrice(productFound.dataValues.price, counts[productFound.dataValues.code], productFound.dataValues.Promotion);
+                return;
+            });
+        }).then(function (params) {
+            res.send({ items: req.body.items, total });
+        });
+    });
 });
+
+function getPrice(price, count, promotion) {
+    if (promotion == null)
+        return price * count;
+    else {
+        switch (promotion.dataValues.type) {
+            case 'XFORX':
+                return xForX(price, count, JSON.parse(promotion.dataValues.data));
+            case 'BULK':
+                return bulk(price, count, JSON.parse(promotion.dataValues.data));
+            default:
+                break;
+        }
+    }
+}
+
+function xForX(price, count, data) {
+    return price * count;
+ }
+
+function bulk(price, count, data) {
+    return price * count;
+ }
 
 module.exports = router;

@@ -47,7 +47,10 @@ router.post('/', validate({ body: ProductSchema }), function (req, res) {
     models.Product.create(
         req.body.product
     ).then(function (productSaved) {
-        if (req.body.promotion == null) return;
+        if (req.body.promotion == null) {
+            res.send(productSaved);
+            return;
+        };
         models.Promotion.create(req.body.promotion).then(function (promotionSaved) {
             return productSaved.setPromotion(promotionSaved);
         }).then(function () {
