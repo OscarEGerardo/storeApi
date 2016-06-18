@@ -26,7 +26,8 @@ var ProductSchema = {
                     type: 'decimal',
                     required: true
                 }
-            }
+            },
+            additionalProperties: false
         },
         promotion: {
             type: 'object',
@@ -40,9 +41,11 @@ var ProductSchema = {
                     type: 'object',
                     required: true
                 }
-            }
+            },
+            additionalProperties: false
         }
-    }
+    },
+    additionalProperties: false
 }
 
 router.get('/', function (req, res) {
@@ -77,7 +80,37 @@ router.post('/create', validate({ body: ProductSchema }), function (req, res) {
             });
         }).then(function () {
             res.send(productSaved);
-        });;
+        });
+    }).catch(function (error) {
+        res.status(400);
+        res.send({ statusText: error.name + ' - ' + error.message });
+    });
+});
+
+router.post('/update', validate({ body: ProductSchema }), function (req, res) {
+    models.sequelize.transaction(function (t) {
+        return models.Product.findOne({
+            where: {
+                code: req.body.product.code
+            },
+            include: [models.Promotion],
+            transaction: t
+        }).then(function (productFound) {
+            checkPromotion(req.body.promotion);
+
+            return productFound.Promotion.updateAttributes({
+                type: req.body.promotion.type,
+                data: req.body.promotion.data
+            }, { transaction: t }).then(function (updatedProm) {
+                return productFound.updateAttributes({
+                    name: req.body.product.name,
+                    price: req.body.product.price,
+                    Promotion: req.body.promotion
+                }, { transaction: t });
+            }).then(function (updated) {
+                res.send(updated);
+            });
+        });
     }).catch(function (error) {
         res.status(400);
         res.send({ statusText: error.name + ' - ' + error.message });

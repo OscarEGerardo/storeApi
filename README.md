@@ -23,9 +23,7 @@ StoreAPI
 }
 ```
 
-##[POST] Products [▲](#markdown-header-index)
-*Agrega un nuevo producto a la base de datos*
-
+##[GET] Products [▲](#markdown-header-index)
 ```
 :::scala
 
@@ -108,6 +106,56 @@ Response: {
   "updatedAt": "2016-06-17T11:45:00.751Z",
   "createdAt": "2016-06-17T11:45:00.725Z",
   "PromotionId": 2
+}
+```
+
+##[POST] Products/update [▲](#markdown-header-index)
+```
+:::scala
+Request: {
+  product: Product,
+  promotion: Promotion (Not Required)
+}
+
+Response: {
+  Product
+}
+```
+
+##Ejemplo [POST] Products/update [▲](#markdown-header-index)
+```
+:::json
+Request: {
+  {
+    "product": {
+        "code": "PANTS",
+        "name": "OGGI",
+        "price": 5.00
+    },
+    "promotion": {
+        "type": "XFORX",
+        "data": {
+            "buy": 2,
+            "pay": 1
+        }
+    }
+ }
+}
+
+Response: {
+  "code": "PANTS",
+  "name": "Pants",
+  "price": 5,
+  "createdAt": "2016-06-18T05:30:47.558Z",
+  "updatedAt": "2016-06-18T14:46:17.343Z",
+  "PromotionId": 1,
+  "Promotion": {
+    "type": "XFORX",
+    "data": {
+      "buy": 2,
+      "pay": 1
+    }
+  }
 }
 ```
 
