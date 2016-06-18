@@ -80,7 +80,6 @@ Response: {
 ##Ejemplo [POST] Products/create [▲](#markdown-header-index)
 ```json
 Request: {
-  {
     "product": {
         "code": "PANTS",
         "name": "OGGI",
@@ -93,7 +92,6 @@ Request: {
             "pay": 1
         }
     }
- }
 }
 
 Response: {
@@ -122,7 +120,6 @@ Response: {
 ##Ejemplo [POST] Products/update [▲](#markdown-header-index)
 ```json
 Request: {
-  {
     "product": {
         "code": "PANTS",
         "name": "OGGI",
@@ -135,7 +132,6 @@ Request: {
             "pay": 1
         }
     }
- }
 }
 
 Response: {
