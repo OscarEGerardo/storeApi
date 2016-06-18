@@ -67,3 +67,36 @@ Response: {
   "PromotionId": 2
 }
 ```
+
+##[POST] Payments [▲](#markdown-header-index)
+*Agrega un nuevo producto a la base de datos*
+
+```
+:::scala
+Request: {
+  items[]: string
+}
+
+Response: {
+  items[]: string,
+  total: decimal
+}
+```
+
+##Ejemplo [POST] Payments [▲](#markdown-header-index)
+```
+:::json
+Request: {
+    "items": ["PANTS","PANTS","PANTS","PANTS"]
+}
+
+Response: {
+  "items": [
+    "PANTS",
+    "PANTS",
+    "PANTS",
+    "PANTS"
+  ],
+  "total": 10
+}
+```
