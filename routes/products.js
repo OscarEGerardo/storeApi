@@ -1,9 +1,11 @@
 var express = require('express');
 var models = require('../models');
+var check = require('check-types');
 var validate = require('express-jsonschema').validate;
 var router = express.Router();
 
 var ProductSchema = {
+    id: '/SimpleProduct',
     type: 'object',
     properties: {
         product: {
@@ -36,16 +38,16 @@ var ProductSchema = {
                 },
                 data: {
                     type: 'object',
-                    require: true
+                    required: true
                 }
             }
         }
     }
 }
 
-router.post('/', validate({ body: ProductSchema }), function (req, res) {
+router.post('/', validate({ body: ProductSchema }, [DataSchema]), function (req, res) {
     models.sequelize.transaction(function (t) {
-        models.Product.create(
+        return models.Product.create(
             req.body.product,
             { transaction: t }
         ).then(function (productSaved) {
@@ -53,16 +55,32 @@ router.post('/', validate({ body: ProductSchema }), function (req, res) {
                 res.send(productSaved);
                 return;
             };
-            models.Promotion.create(req.body.promotion, { transaction: t }).then(function (promotionSaved) {
+            checkPromotion(req.body.promotion);
+            return models.Promotion.create(req.body.promotion, { transaction: t }).then(function (promotionSaved) {
                 return productSaved.setPromotion(promotionSaved);
-            }).then(function () {
-                res.send(productSaved);
             });
-        });
+        }).then(function () {
+            res.send(productSaved);
+        });;
     }).catch(function (error) {
         res.status(400);
-        res.send({ statusText: error.message });
-    });;
+        res.send({ statusText: error.name + ' - ' + error.message });
+    });
 });
+
+function checkPromotion(prom) {
+    switch (prom.type) {
+        case 'XFORX':
+            if (check.integer(prom.data.buy) && check.integer(prom.data.pay))
+                break;
+            throw Error('Invalid data for XFOX Promotion');
+        case 'BULK':
+            if (check.integer(prom.data.buy) && check.integer(prom.data.price))
+                break;
+            throw Error('Invalid data for BULK Promotion');
+        default:
+            throw Error(prom.type + ' - Not implemented');
+    }
+}
 
 module.exports = router;
