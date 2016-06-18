@@ -71,19 +71,18 @@ router.post('/create', validate({ body: ProductSchema }), function (req, res) {
             { transaction: t }
         ).then(function (productSaved) {
             if (req.body.promotion == null) {
-                res.send(productSaved);
-                return;
+                return productSaved;
             };
             checkPromotion(req.body.promotion);
             return models.Promotion.create(req.body.promotion, { transaction: t }).then(function (promotionSaved) {
-                return productSaved.setPromotion(promotionSaved);
+                return productSaved.setPromotion(promotionSaved, { transaction: t });
             });
-        }).then(function () {
-            res.send(productSaved);
+        }).then(function (pro) {
+            res.send(pro);
         });
     }).catch(function (error) {
         res.status(400);
-        res.send({ statusText: error.name + ' - ' + error.message });
+        res.send({ statusText: error.name == null ? '' : error.name + ' - ' + error.message });
     });
 });
 
@@ -96,7 +95,8 @@ router.post('/update', validate({ body: ProductSchema }), function (req, res) {
             include: [models.Promotion],
             transaction: t
         }).then(function (productFound) {
-            if (productFound.Promotion == null) return updateProd(productFound, req, t);
+            if (productFound == null) throw Error(req.body.product.code + ' does not exists');
+            if (productFound.Promotion == null || req.body.promotion == null) return updateProd(productFound, req, t);
             checkPromotion(req.body.promotion);
 
             return productFound.Promotion.updateAttributes({
