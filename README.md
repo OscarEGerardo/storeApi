@@ -1,6 +1,13 @@
 #Index
 StoreAPI
 
+#Install [▲](#index)
+git clone https://github.com/OscarEGerardo/storeApi.git
+cd storeApi/
+npm install
+node app.js
+
+
 ---
 #Modelos [▲](#index)
 
