@@ -44,19 +44,25 @@ var ProductSchema = {
 }
 
 router.post('/', validate({ body: ProductSchema }), function (req, res) {
-    models.Product.create(
-        req.body.product
-    ).then(function (productSaved) {
-        if (req.body.promotion == null) {
-            res.send(productSaved);
-            return;
-        };
-        models.Promotion.create(req.body.promotion).then(function (promotionSaved) {
-            return productSaved.setPromotion(promotionSaved);
-        }).then(function () {
-            res.send(productSaved);
+    models.sequelize.transaction(function (t) {
+        models.Product.create(
+            req.body.product,
+            { transaction: t }
+        ).then(function (productSaved) {
+            if (req.body.promotion == null) {
+                res.send(productSaved);
+                return;
+            };
+            models.Promotion.create(req.body.promotion, { transaction: t }).then(function (promotionSaved) {
+                return productSaved.setPromotion(promotionSaved);
+            }).then(function () {
+                res.send(productSaved);
+            });
         });
-    });
+    }).catch(function (error) {
+        res.status(400);
+        res.send({ statusText: error.message });
+    });;
 });
 
 module.exports = router;
