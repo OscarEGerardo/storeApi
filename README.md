@@ -2,11 +2,11 @@
 StoreAPI
 
 ---
-#Modelos [▲](#markdown-header-index)
+#Modelos [▲](#index)
 
 ![BD](https://raw.githubusercontent.com/OscarEGerardo/storeApi/master/docs/BD.PNG)
 
-##Product [▲](#markdown-header-index)
+##Product [▲](#index)
 ```scala
 {
   code: string,
@@ -15,7 +15,7 @@ StoreAPI
 }
 ```
 
-##Promotion [▲](#markdown-header-index)
+##Promotion [▲](#index)
 ```scala
 {
   type: string,
@@ -23,7 +23,7 @@ StoreAPI
 }
 ```
 
-##[GET] Products [▲](#markdown-header-index)
+##[GET] Products [▲](#index)
 *Obtiene lista de productos*
 ```scala
 
@@ -32,7 +32,7 @@ Response: {
 }
 ```
 
-##Ejemplo [GET] Products [▲](#markdown-header-index)
+##Ejemplo [GET] Products [▲](#index)
 ```json
 
 Response: [
@@ -63,7 +63,7 @@ Response: [
 ]
 ```
 
-##[POST] Products/create [▲](#markdown-header-index)
+##[POST] Products/create [▲](#index)
 *Agrega un nuevo producto a la base de datos*
 
 ```scala
@@ -77,7 +77,7 @@ Response: {
 }
 ```
 
-##Ejemplo [POST] Products/create [▲](#markdown-header-index)
+##Ejemplo [POST] Products/create [▲](#index)
 ```json
 Request: {
     "product": {
@@ -104,7 +104,7 @@ Response: {
 }
 ```
 
-##[POST] Products/update [▲](#markdown-header-index)
+##[POST] Products/update [▲](#index)
 *Actualiza producto*
 ```scala
 Request: {
@@ -117,7 +117,7 @@ Response: {
 }
 ```
 
-##Ejemplo [POST] Products/update [▲](#markdown-header-index)
+##Ejemplo [POST] Products/update [▲](#index)
 ```json
 Request: {
     "product": {
@@ -151,7 +151,7 @@ Response: {
 }
 ```
 
-##[POST] Payments [▲](#markdown-header-index)
+##[POST] Payments [▲](#index)
 *Agrega un nuevo producto a la base de datos*
 
 ```scala
@@ -165,7 +165,7 @@ Response: {
 }
 ```
 
-##Ejemplo [POST] Payments [▲](#markdown-header-index)
+##Ejemplo [POST] Payments [▲](#index)
 ```json
 Request: {
     "items": ["PANTS","PANTS","PANTS","PANTS"]

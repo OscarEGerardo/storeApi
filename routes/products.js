@@ -96,26 +96,31 @@ router.post('/update', validate({ body: ProductSchema }), function (req, res) {
             include: [models.Promotion],
             transaction: t
         }).then(function (productFound) {
+            if (productFound.Promotion == null) return updateProd(productFound, req, t);
             checkPromotion(req.body.promotion);
 
             return productFound.Promotion.updateAttributes({
                 type: req.body.promotion.type,
                 data: req.body.promotion.data
-            }, { transaction: t }).then(function (updatedProm) {
-                return productFound.updateAttributes({
-                    name: req.body.product.name,
-                    price: req.body.product.price,
-                    Promotion: req.body.promotion
-                }, { transaction: t });
-            }).then(function (updated) {
-                res.send(updated);
+            }, { transaction: t }).then(function (params) {
+                return updateProd(productFound, req, t);
             });
+        }).then(function (updated) {
+            res.send(updated);
         });
     }).catch(function (error) {
         res.status(400);
         res.send({ statusText: error.name + ' - ' + error.message });
     });
 });
+
+function updateProd(productFound, req, t) {
+    return productFound.updateAttributes({
+        name: req.body.product.name,
+        price: req.body.product.price,
+        Promotion: req.body.promotion
+    }, { transaction: t });
+}
 
 function checkPromotion(prom) {
     switch (prom.type) {
