@@ -45,7 +45,23 @@ var ProductSchema = {
     }
 }
 
-router.post('/', validate({ body: ProductSchema }, [DataSchema]), function (req, res) {
+router.get('/', function (req, res) {
+    models.Product.findAll({
+        include: [{
+            model: models.Promotion,
+            attributes: {
+                exclude: ['id', 'createdAt', 'updatedAt']
+            }
+        }],
+        attributes: {
+            exclude: ['PromotionId', 'createdAt', 'updatedAt']
+        }
+    }).then(function (products) {
+        res.send(products);
+    });
+});
+
+router.post('/create', validate({ body: ProductSchema }), function (req, res) {
     models.sequelize.transaction(function (t) {
         return models.Product.create(
             req.body.product,

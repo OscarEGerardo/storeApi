@@ -28,6 +28,49 @@ StoreAPI
 
 ```
 :::scala
+
+Response: {
+  Products
+}
+```
+
+##Ejemplo [GET] Products [▲](#markdown-header-index)
+```
+:::json
+
+Response: [
+  {
+    "code": "PANTS",
+    "name": "Pants",
+    "price": 5,
+    "Promotion": {
+      "type": "XFORX",
+      "data": "{\"buy\":2,\"pay\":1}"
+    }
+  },
+  {
+    "code": "TSHIRT",
+    "name": "T-Shirt",
+    "price": 20,
+    "Promotion": {
+      "type": "BULK",
+      "data": "{\"buy\":3,\"price\":19}"
+    }
+  },
+  {
+    "code": "HAT",
+    "name": "Hat",
+    "price": 7.5,
+    "Promotion": null
+  }
+]
+```
+
+##[POST] Products/create [▲](#markdown-header-index)
+*Agrega un nuevo producto a la base de datos*
+
+```
+:::scala
 Request: {
   product: Product,
   promotion: Promotion (Not Required)
@@ -38,7 +81,7 @@ Response: {
 }
 ```
 
-##Ejemplo [POST] Products [▲](#markdown-header-index)
+##Ejemplo [POST] Products/create [▲](#markdown-header-index)
 ```
 :::json
 Request: {
