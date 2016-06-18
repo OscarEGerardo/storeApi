@@ -4,9 +4,10 @@ StoreAPI
 ---
 #Modelos [▲](#markdown-header-index)
 
+![BD](https://raw.githubusercontent.com/OscarEGerardo/storeApi/master/docs/BD.PNG)
+
 ##Product [▲](#markdown-header-index)
-```
-:::scala
+```scala
 {
   code: string,
   name: string,
@@ -15,8 +16,7 @@ StoreAPI
 ```
 
 ##Promotion [▲](#markdown-header-index)
-```
-:::scala
+```scala
 {
   type: string,
   data: json
@@ -24,8 +24,8 @@ StoreAPI
 ```
 
 ##[GET] Products [▲](#markdown-header-index)
-```
-:::scala
+*Obtiene lista de productos*
+```scala
 
 Response: {
   Products
@@ -33,8 +33,7 @@ Response: {
 ```
 
 ##Ejemplo [GET] Products [▲](#markdown-header-index)
-```
-:::json
+```json
 
 Response: [
   {
@@ -67,8 +66,7 @@ Response: [
 ##[POST] Products/create [▲](#markdown-header-index)
 *Agrega un nuevo producto a la base de datos*
 
-```
-:::scala
+```scala
 Request: {
   product: Product,
   promotion: Promotion (Not Required)
@@ -80,8 +78,7 @@ Response: {
 ```
 
 ##Ejemplo [POST] Products/create [▲](#markdown-header-index)
-```
-:::json
+```json
 Request: {
   {
     "product": {
@@ -110,8 +107,8 @@ Response: {
 ```
 
 ##[POST] Products/update [▲](#markdown-header-index)
-```
-:::scala
+*Actualiza producto*
+```scala
 Request: {
   product: Product,
   promotion: Promotion (Not Required)
@@ -123,8 +120,7 @@ Response: {
 ```
 
 ##Ejemplo [POST] Products/update [▲](#markdown-header-index)
-```
-:::json
+```json
 Request: {
   {
     "product": {
@@ -162,8 +158,7 @@ Response: {
 ##[POST] Payments [▲](#markdown-header-index)
 *Agrega un nuevo producto a la base de datos*
 
-```
-:::scala
+```scala
 Request: {
   items[]: string
 }
@@ -175,8 +170,7 @@ Response: {
 ```
 
 ##Ejemplo [POST] Payments [▲](#markdown-header-index)
-```
-:::json
+```json
 Request: {
     "items": ["PANTS","PANTS","PANTS","PANTS"]
 }

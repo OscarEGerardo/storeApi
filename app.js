@@ -18,19 +18,19 @@ app.use('/payments', payments);
 
 models.sequelize.sync().then(function () {
     var server = app.listen(app.get('port'), function () {
-        console.log('Listening on port 3000!');
+        console.log('Listening on port ' + app.get('port'));
     });
 })
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     var responseData;
     if (err.name === 'JsonSchemaValidation') {
         res.status(400);
- 
+
         responseData = {
-           statusText: 'Bad Request',
-           jsonSchemaValidation: true,
-           validations: err.validations   
+            statusText: 'Bad Request',
+            jsonSchemaValidation: true,
+            validations: err.validations
         };
         res.json(responseData);
     } else {
