@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var models = require('./models');
 
 var products = require('./routes/products');
+var payments = require('./routes/payments');
 
 var app = express();
 
@@ -13,6 +14,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 
 app.use('/products', products);
+app.use('/payments', payments);
 
 models.sequelize.sync().then(function () {
     var server = app.listen(app.get('port'), function () {
