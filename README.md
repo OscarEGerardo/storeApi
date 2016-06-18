@@ -2,10 +2,13 @@
 StoreAPI
 
 #Install [▲](#index)
-git clone https://github.com/OscarEGerardo/storeApi.git
-cd storeApi/
-npm install
-node app.js
+```scala
+ - git clone https://github.com/OscarEGerardo/storeApi.git
+ - cd storeApi/
+ - npm install
+ - node app.js
+```
+
 
 
 ---
